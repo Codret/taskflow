@@ -1,0 +1,35 @@
+/* taskItem.module.css */
+
+/* Card container for each task */
+.taskCard {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0; /* light gray */
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease-in-out;
+}
+
+.taskCard:hover {
+  transform: translateY(-2px);
+}
+
+/* Row for due date */
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Row for created date */
+.createdRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Optional: highlight due today */
+.dueToday {
+  color: #f56565; /* red-500 */
+  font-weight: 500;
+}

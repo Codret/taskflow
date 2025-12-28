@@ -1,37 +1,78 @@
-import express from "express"
-import env from "dotenv"
-env.config()
-import cors from "cors"
-import { connectDB } from "./config/db.js"
-import authroutes from "./routes/authroutes.js"
-import cookieParser from "cookie-parser"
-import taskRouter from "./routes/taskRoutes.js"
+// import express from "express";
+// import cors from "cors";
+// import dotenv from "dotenv";
+// import connectDB from "./config/db.js";
 
-const app = express()
-const port = process.env.PORT || 4000;
+// dotenv.config();
+// connectDB();
 
+// const app = express();
+
+// app.use(cors());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+// app.get("/", (req, res) => {
+//   res.send("API Working");
+// });
+
+// import authRoutes from "./routes/authRoutes.js";
+// import taskRoutes from "./routes/task.routes.js";
+
+// app.use("/api/auth", authRoutes);
+// app.use("/api/tasks", taskRoutes);
+
+// const PORT = process.env.PORT || 4000;
+// app.listen(PORT, () =>
+//   console.log(`Server running on http://localhost:${PORT}`)
+// );
+
+
+// server.js
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import cookieParser from "cookie-parser";
+
+// Load environment variables
+dotenv.config();
+
+// Connect to MongoDB
+connectDB();
+
+const app = express();
+
+app.use(cookieParser());
+
+// Enable CORS
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
-    credentials: true,  
+    origin: "http://localhost:5173", // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // allow cookies if needed
   })
 );
-app.use(express.json()); 
-app.use(express.urlencoded({extended:true}))
-app.use(cookieParser())
 
+// Parse JSON and URL-encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-//routes  
-app.get("/", (req , res) => {
-    res.send("Api working")
-})
+// Root route
+app.get("/", (req, res) => {
+  res.send("API is working!");
+});
 
-app.use("/api/auth",authroutes)
-app.use("/api/tasks", taskRouter)
+// Import routes
+import authRoutes from "./routes/authRoutes.js";
+import taskRoutes from "./routes/task.routes.js";
 
-app.listen(port, () => {
-    console.log(`server is running on Port- ${port}`);
-    connectDB()
-    
-}) 
+// Use routes
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
+// Start server
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

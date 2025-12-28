@@ -1,8 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-
-axios.defaults.withCredentials = true; // send cookies with requests
-
+import API from "../api/API.js"
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -10,8 +7,8 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/auth/me");
-      setUser(res.data.user);
+      const { data } = await API.get("/user/me");
+      setUser(data.user);
     } catch {
       setUser(null);
     }
